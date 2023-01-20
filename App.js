@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Appearance, useColorScheme, StatusBar, SafeAreaView } from 'react-native';
 import Constants from 'expo-constants';
@@ -21,8 +22,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   lightContainer: {
     backgroundColor: '#d0d0c0',

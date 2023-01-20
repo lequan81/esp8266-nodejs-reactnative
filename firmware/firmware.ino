@@ -32,6 +32,7 @@ void messageHandler(uint8_t *payload)
     String output;
     serializeJson(doc, output);
     socketIO.sendEVENT(output);
+    delay(300); // debounce for SocketIO
   }
 }
 
@@ -102,6 +103,7 @@ void buttonHandler()
     String output;
     serializeJson(doc, output);
     socketIO.sendEVENT(output);
+    delay(300); // debounce for SocketIO
   }
 }
 

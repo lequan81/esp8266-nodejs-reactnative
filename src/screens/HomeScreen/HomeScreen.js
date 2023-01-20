@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, useColorScheme, Appearance } from 'react-native';
 import Constants from 'expo-constants';
-// import socket from '../utils/socket';
+// import socket from '../../utils/socket';
 import { io } from "socket.io-client";
+const socket = io.connect("https://stingy-experienced-tv.glitch.me/");
 
 const HomeScreen = ({ ipAdress }) => {
-  const socket = io.connect(ipAdress);
-  
+
   const colorScheme = useColorScheme();
   const themeContainerStyle =
-  colorScheme === 'light' ? styles.lightContainer : styles.darkContainer;
-  
+    colorScheme === 'light' ? styles.lightContainer : styles.darkContainer;
+
   let [btnState, setBtnState] = useState(false);
 
   const toggleBtn = () => {
     btnState = !btnState;
-    setBtnState(btnState);
     socket.emit('changeState', btnState);
-    console.log('button state is ', btnState);
+    setTimeout(() => {  // debounce
+      setBtnState(btnState);
+    }, 250);
   }
 
-  socket.on('state', state => {
+  socket.once('state', state => {
     console.log('updated state', state);
     btnState = state;
-    setBtnState(btnState);
+    setTimeout(() => {  // debounce
+      setBtnState(btnState);
+    }, 250);
   });
 
   return (
@@ -81,6 +84,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#0097e6',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonText: {
+    textTransform: 'uppercase',
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
